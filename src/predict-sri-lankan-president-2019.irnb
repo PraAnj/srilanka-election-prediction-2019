@@ -1,6 +1,21 @@
 {
  "cells": [
   {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Introduction and Workspace setting**\n",
+    "\n",
+    "We collected a valueble dataset just before the election from street interviews in kaduwela, Colombo, Sri Lanka area in order to predict the presidential election winner of Sri Lanka in 2019 polls. We do not retrict to the prediction of the winner. We will try to analyse the rationale behind their decision and try to come up with policies that the winner should bring forward.\n",
+    "\n",
+    "> Dataset contains,\n",
+    "> 1. Road interviews data (face_to_face_road_interviews.csv)\n",
+    "> 2. Social media data (social_media_votes.csv)\n",
+    "\n",
+    "Please go to our [github repo](https://github.com/PraAnj/srilanka-election-prediction-2019) for more information. This repo contains the questionnaire and the dataset along with analysis scripts. This dataset is publicly available so that anyone can use it for academic work."
+   ]
+  },
+  {
    "cell_type": "code",
    "execution_count": 1,
    "metadata": {
@@ -28,16 +43,25 @@
     {
      "data": {
       "text/html": [
-       "'srilankanpresidentialelectionprediction2019'"
+       "<ol class=list-inline>\n",
+       "\t<li>'face_to_face_road_interviews.csv'</li>\n",
+       "\t<li>'social_media_votes.csv'</li>\n",
+       "</ol>\n"
       ],
       "text/latex": [
-       "'srilankanpresidentialelectionprediction2019'"
+       "\\begin{enumerate*}\n",
+       "\\item 'face\\_to\\_face\\_road\\_interviews.csv'\n",
+       "\\item 'social\\_media\\_votes.csv'\n",
+       "\\end{enumerate*}\n"
       ],
       "text/markdown": [
-       "'srilankanpresidentialelectionprediction2019'"
+       "1. 'face_to_face_road_interviews.csv'\n",
+       "2. 'social_media_votes.csv'\n",
+       "\n",
+       "\n"
       ],
       "text/plain": [
-       "[1] \"srilankanpresidentialelectionprediction2019\""
+       "[1] \"face_to_face_road_interviews.csv\" \"social_media_votes.csv\"          "
       ]
      },
      "metadata": {},
@@ -46,9 +70,141 @@
    ],
    "source": [
     "library(tidyverse) # metapackage with lots of helpful functions\n",
-    "\n",
-    "\n",
-    "list.files(path = \"../input\")"
+    "list.files(path = \"../input/srilankanpresidentialelectionprediction2019\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Loading data**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<table>\n",
+       "<caption>A data.frame: 6 × 13</caption>\n",
+       "<thead>\n",
+       "\t<tr><th></th><th scope=col>Timestamp</th><th scope=col>X1..Who.would.you.vote.as.the.first.preference.in.the.presidential.election.</th><th scope=col>X2..What.would.be.your.second.preference.</th><th scope=col>X3..What.policy.changes.you.expect.from.your.next.president.</th><th scope=col>X4..Do.you.think.country.needs.an.executive.president.</th><th scope=col>X5..What.was.your.choice.in.2015.presidential.election.</th><th scope=col>X6..How.old.are.you.</th><th scope=col>X7..What.is.your.gender.</th><th scope=col>X8..What.is.your.religion.</th><th scope=col>X9..What.is.your.monthly.income.</th><th scope=col>X10..What.is.your.ethnicity</th><th scope=col>X11..What.is.your.voting.district.</th><th scope=col>X12..Education.level.</th></tr>\n",
+       "\t<tr><th></th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;fct&gt;</th></tr>\n",
+       "</thead>\n",
+       "<tbody>\n",
+       "\t<tr><th scope=row>1</th><td>2019/10/29 2:07:11 PM GMT+5:30</td><td>Gotabaya Rajapaksa      </td><td>Gotabaya Rajapaksa</td><td>Corruption free/ less country</td><td>I do not care                               </td><td>Mahinda Rajapasa     </td><td>55 to 64</td><td>Female</td><td>Buddhist</td><td>Below 15,000    </td><td>Sinhala</td><td>Kegalla          </td><td>Primary             </td></tr>\n",
+       "\t<tr><th scope=row>2</th><td>2019/10/29 2:11:07 PM GMT+5:30</td><td>Gotabaya Rajapaksa      </td><td>Not voting        </td><td>Economic stability           </td><td>Yes, we need an executive president         </td><td>Mahinda Rajapasa     </td><td>45 to 54</td><td>Female</td><td>Buddhist</td><td>15,001 to 30,000</td><td>Sinhala</td><td>                 </td><td>Ordinary level (O/L)</td></tr>\n",
+       "\t<tr><th scope=row>3</th><td>2019/10/29 2:13:14 PM GMT+5:30</td><td>Gotabaya Rajapaksa      </td><td>Not voting        </td><td>Economic stability           </td><td>Yes, we need an executive president         </td><td>I did not vote       </td><td>35 to 44</td><td>Female</td><td>Buddhist</td><td>30,001 to 50,000</td><td>Sinhala</td><td>homagama, colombo</td><td>Graduated           </td></tr>\n",
+       "\t<tr><th scope=row>4</th><td>2019/10/29 2:15:40 PM GMT+5:30</td><td>Sajith Premadasa        </td><td>Gotabaya Rajapaksa</td><td>Economic stability           </td><td>Yes, we need an executive president         </td><td>Maithreepala Sirisena</td><td>35 to 44</td><td>Male  </td><td>Buddhist</td><td>30,001 to 50,000</td><td>Sinhala</td><td>kaduwela, colombo</td><td>Advanced level (A/L)</td></tr>\n",
+       "\t<tr><th scope=row>5</th><td>2019/10/29 2:17:10 PM GMT+5:30</td><td>Anura Kumara Dissanayake</td><td>Not voting        </td><td>Economic stability           </td><td>No,  executive presidency should be removed.</td><td>Other                </td><td>55 to 64</td><td>Male  </td><td>Buddhist</td><td>30,001 to 50,000</td><td>Sinhala</td><td>Kaduwela         </td><td>Ordinary level (O/L)</td></tr>\n",
+       "\t<tr><th scope=row>6</th><td>2019/10/29 2:21:31 PM GMT+5:30</td><td>Gotabaya Rajapaksa      </td><td>Not voting        </td><td>National security            </td><td>Yes, we need an executive president         </td><td>Mahinda Rajapasa     </td><td>35 to 44</td><td>Female</td><td>Buddhist</td><td>Below 15,000    </td><td>Sinhala</td><td>kaduwela, colombo</td><td>Ordinary level (O/L)</td></tr>\n",
+       "</tbody>\n",
+       "</table>\n"
+      ],
+      "text/latex": [
+       "A data.frame: 6 × 13\n",
+       "\\begin{tabular}{r|lllllllllllll}\n",
+       "  & Timestamp & X1..Who.would.you.vote.as.the.first.preference.in.the.presidential.election. & X2..What.would.be.your.second.preference. & X3..What.policy.changes.you.expect.from.your.next.president. & X4..Do.you.think.country.needs.an.executive.president. & X5..What.was.your.choice.in.2015.presidential.election. & X6..How.old.are.you. & X7..What.is.your.gender. & X8..What.is.your.religion. & X9..What.is.your.monthly.income. & X10..What.is.your.ethnicity & X11..What.is.your.voting.district. & X12..Education.level.\\\\\n",
+       "  & <fct> & <fct> & <fct> & <fct> & <fct> & <fct> & <fct> & <fct> & <fct> & <fct> & <fct> & <fct> & <fct>\\\\\n",
+       "\\hline\n",
+       "\t1 & 2019/10/29 2:07:11 PM GMT+5:30 & Gotabaya Rajapaksa       & Gotabaya Rajapaksa & Corruption free/ less country & I do not care                                & Mahinda Rajapasa      & 55 to 64 & Female & Buddhist & Below 15,000     & Sinhala & Kegalla           & Primary             \\\\\n",
+       "\t2 & 2019/10/29 2:11:07 PM GMT+5:30 & Gotabaya Rajapaksa       & Not voting         & Economic stability            & Yes, we need an executive president          & Mahinda Rajapasa      & 45 to 54 & Female & Buddhist & 15,001 to 30,000 & Sinhala &                   & Ordinary level (O/L)\\\\\n",
+       "\t3 & 2019/10/29 2:13:14 PM GMT+5:30 & Gotabaya Rajapaksa       & Not voting         & Economic stability            & Yes, we need an executive president          & I did not vote        & 35 to 44 & Female & Buddhist & 30,001 to 50,000 & Sinhala & homagama, colombo & Graduated           \\\\\n",
+       "\t4 & 2019/10/29 2:15:40 PM GMT+5:30 & Sajith Premadasa         & Gotabaya Rajapaksa & Economic stability            & Yes, we need an executive president          & Maithreepala Sirisena & 35 to 44 & Male   & Buddhist & 30,001 to 50,000 & Sinhala & kaduwela, colombo & Advanced level (A/L)\\\\\n",
+       "\t5 & 2019/10/29 2:17:10 PM GMT+5:30 & Anura Kumara Dissanayake & Not voting         & Economic stability            & No,  executive presidency should be removed. & Other                 & 55 to 64 & Male   & Buddhist & 30,001 to 50,000 & Sinhala & Kaduwela          & Ordinary level (O/L)\\\\\n",
+       "\t6 & 2019/10/29 2:21:31 PM GMT+5:30 & Gotabaya Rajapaksa       & Not voting         & National security             & Yes, we need an executive president          & Mahinda Rajapasa      & 35 to 44 & Female & Buddhist & Below 15,000     & Sinhala & kaduwela, colombo & Ordinary level (O/L)\\\\\n",
+       "\\end{tabular}\n"
+      ],
+      "text/markdown": [
+       "\n",
+       "A data.frame: 6 × 13\n",
+       "\n",
+       "| <!--/--> | Timestamp &lt;fct&gt; | X1..Who.would.you.vote.as.the.first.preference.in.the.presidential.election. &lt;fct&gt; | X2..What.would.be.your.second.preference. &lt;fct&gt; | X3..What.policy.changes.you.expect.from.your.next.president. &lt;fct&gt; | X4..Do.you.think.country.needs.an.executive.president. &lt;fct&gt; | X5..What.was.your.choice.in.2015.presidential.election. &lt;fct&gt; | X6..How.old.are.you. &lt;fct&gt; | X7..What.is.your.gender. &lt;fct&gt; | X8..What.is.your.religion. &lt;fct&gt; | X9..What.is.your.monthly.income. &lt;fct&gt; | X10..What.is.your.ethnicity &lt;fct&gt; | X11..What.is.your.voting.district. &lt;fct&gt; | X12..Education.level. &lt;fct&gt; |\n",
+       "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n",
+       "| 1 | 2019/10/29 2:07:11 PM GMT+5:30 | Gotabaya Rajapaksa       | Gotabaya Rajapaksa | Corruption free/ less country | I do not care                                | Mahinda Rajapasa      | 55 to 64 | Female | Buddhist | Below 15,000     | Sinhala | Kegalla           | Primary              |\n",
+       "| 2 | 2019/10/29 2:11:07 PM GMT+5:30 | Gotabaya Rajapaksa       | Not voting         | Economic stability            | Yes, we need an executive president          | Mahinda Rajapasa      | 45 to 54 | Female | Buddhist | 15,001 to 30,000 | Sinhala | <!----> | Ordinary level (O/L) |\n",
+       "| 3 | 2019/10/29 2:13:14 PM GMT+5:30 | Gotabaya Rajapaksa       | Not voting         | Economic stability            | Yes, we need an executive president          | I did not vote        | 35 to 44 | Female | Buddhist | 30,001 to 50,000 | Sinhala | homagama, colombo | Graduated            |\n",
+       "| 4 | 2019/10/29 2:15:40 PM GMT+5:30 | Sajith Premadasa         | Gotabaya Rajapaksa | Economic stability            | Yes, we need an executive president          | Maithreepala Sirisena | 35 to 44 | Male   | Buddhist | 30,001 to 50,000 | Sinhala | kaduwela, colombo | Advanced level (A/L) |\n",
+       "| 5 | 2019/10/29 2:17:10 PM GMT+5:30 | Anura Kumara Dissanayake | Not voting         | Economic stability            | No,  executive presidency should be removed. | Other                 | 55 to 64 | Male   | Buddhist | 30,001 to 50,000 | Sinhala | Kaduwela          | Ordinary level (O/L) |\n",
+       "| 6 | 2019/10/29 2:21:31 PM GMT+5:30 | Gotabaya Rajapaksa       | Not voting         | National security             | Yes, we need an executive president          | Mahinda Rajapasa      | 35 to 44 | Female | Buddhist | Below 15,000     | Sinhala | kaduwela, colombo | Ordinary level (O/L) |\n",
+       "\n"
+      ],
+      "text/plain": [
+       "  Timestamp                     \n",
+       "1 2019/10/29 2:07:11 PM GMT+5:30\n",
+       "2 2019/10/29 2:11:07 PM GMT+5:30\n",
+       "3 2019/10/29 2:13:14 PM GMT+5:30\n",
+       "4 2019/10/29 2:15:40 PM GMT+5:30\n",
+       "5 2019/10/29 2:17:10 PM GMT+5:30\n",
+       "6 2019/10/29 2:21:31 PM GMT+5:30\n",
+       "  X1..Who.would.you.vote.as.the.first.preference.in.the.presidential.election.\n",
+       "1 Gotabaya Rajapaksa                                                          \n",
+       "2 Gotabaya Rajapaksa                                                          \n",
+       "3 Gotabaya Rajapaksa                                                          \n",
+       "4 Sajith Premadasa                                                            \n",
+       "5 Anura Kumara Dissanayake                                                    \n",
+       "6 Gotabaya Rajapaksa                                                          \n",
+       "  X2..What.would.be.your.second.preference.\n",
+       "1 Gotabaya Rajapaksa                       \n",
+       "2 Not voting                               \n",
+       "3 Not voting                               \n",
+       "4 Gotabaya Rajapaksa                       \n",
+       "5 Not voting                               \n",
+       "6 Not voting                               \n",
+       "  X3..What.policy.changes.you.expect.from.your.next.president.\n",
+       "1 Corruption free/ less country                               \n",
+       "2 Economic stability                                          \n",
+       "3 Economic stability                                          \n",
+       "4 Economic stability                                          \n",
+       "5 Economic stability                                          \n",
+       "6 National security                                           \n",
+       "  X4..Do.you.think.country.needs.an.executive.president.\n",
+       "1 I do not care                                         \n",
+       "2 Yes, we need an executive president                   \n",
+       "3 Yes, we need an executive president                   \n",
+       "4 Yes, we need an executive president                   \n",
+       "5 No,  executive presidency should be removed.          \n",
+       "6 Yes, we need an executive president                   \n",
+       "  X5..What.was.your.choice.in.2015.presidential.election. X6..How.old.are.you.\n",
+       "1 Mahinda Rajapasa                                        55 to 64            \n",
+       "2 Mahinda Rajapasa                                        45 to 54            \n",
+       "3 I did not vote                                          35 to 44            \n",
+       "4 Maithreepala Sirisena                                   35 to 44            \n",
+       "5 Other                                                   55 to 64            \n",
+       "6 Mahinda Rajapasa                                        35 to 44            \n",
+       "  X7..What.is.your.gender. X8..What.is.your.religion.\n",
+       "1 Female                   Buddhist                  \n",
+       "2 Female                   Buddhist                  \n",
+       "3 Female                   Buddhist                  \n",
+       "4 Male                     Buddhist                  \n",
+       "5 Male                     Buddhist                  \n",
+       "6 Female                   Buddhist                  \n",
+       "  X9..What.is.your.monthly.income. X10..What.is.your.ethnicity\n",
+       "1 Below 15,000                     Sinhala                    \n",
+       "2 15,001 to 30,000                 Sinhala                    \n",
+       "3 30,001 to 50,000                 Sinhala                    \n",
+       "4 30,001 to 50,000                 Sinhala                    \n",
+       "5 30,001 to 50,000                 Sinhala                    \n",
+       "6 Below 15,000                     Sinhala                    \n",
+       "  X11..What.is.your.voting.district. X12..Education.level.\n",
+       "1 Kegalla                            Primary              \n",
+       "2                                    Ordinary level (O/L) \n",
+       "3 homagama, colombo                  Graduated            \n",
+       "4 kaduwela, colombo                  Advanced level (A/L) \n",
+       "5 Kaduwela                           Ordinary level (O/L) \n",
+       "6 kaduwela, colombo                  Ordinary level (O/L) "
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "mydata <- read.csv(file=\"../input/srilankanpresidentialelectionprediction2019/face_to_face_road_interviews.csv\", header=TRUE, sep=\",\")\n",
+    "head(mydata)"
    ]
   }
  ],
