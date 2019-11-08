@@ -1,0 +1,1 @@
+timestamp,firstVote,secondVote,policyInclination,isExecutivePresidencyRequired,2015vote,age,gender,religion,income,ethnicity,district,education
