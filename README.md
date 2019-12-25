@@ -4,8 +4,3 @@ We collected a valueble dataset just before the presidential election 2019 by co
 **Road interviews were carried out in following areas**
 
 <img src="https://github.com/PraAnj/srilanka-election-prediction-2019/blob/master/figures/FaceToFace_DataGatteredAreas.PNG" alt="Areas where Road interviews were done" width="400" height="400">
-
-**Diversified people were captured in road interviews.
-
-*Age group distribution*
-*
