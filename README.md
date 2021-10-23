@@ -6,4 +6,5 @@ We collected a valueble dataset just before the presidential election 2019 by co
 <img src="https://github.com/PraAnj/srilanka-election-prediction-2019/blob/master/figures/FaceToFace_DataGatteredAreas.PNG" alt="Areas where Road interviews were done" width="400" height="400">
 
 **Analysis in Sinhala**
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/30_2Gm-YtHk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
