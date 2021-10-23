@@ -7,4 +7,4 @@ We collected a valueble dataset just before the presidential election 2019 by co
 
 **Analysis in Sinhala**
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/30_2Gm-YtHk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Watch the video](https://img.youtube.com/vi/30_2Gm-YtHk/hqdefault.jpg)](https://youtu.be/30_2Gm-YtHk)
