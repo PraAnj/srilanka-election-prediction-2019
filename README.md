@@ -5,6 +5,8 @@ We collected a valueble dataset just before the presidential election 2019 by co
 
 <img src="https://github.com/PraAnj/srilanka-election-prediction-2019/blob/master/figures/FaceToFace_DataGatteredAreas.PNG" alt="Areas where Road interviews were done" width="400" height="400">
 
-**Analysis in Sinhala**
+**Kaggle kernel for analysis::  https://www.kaggle.com/praanj/predict-sri-lankan-president-2019**
+
+**Detailed analysis in Sinhala**
 
 [![Watch the video](https://img.youtube.com/vi/30_2Gm-YtHk/hqdefault.jpg)](https://youtu.be/30_2Gm-YtHk)
